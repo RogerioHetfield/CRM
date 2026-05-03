@@ -1,0 +1,124 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #f4f6f9;
+}
+
+.app {
+  display: flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 220px;
+  background: #111;
+  color: white;
+  height: 100vh;
+  padding: 20px;
+}
+
+.sidebar button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  background: orange;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+/* MAIN */
+main {
+  flex: 1;
+  padding: 20px;
+}
+
+/* TOPO */
+.topo {
+  display: flex;
+  gap: 10px;
+}
+
+.card-topo {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  flex: 1;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* LISTA */
+#lista {
+  margin-top: 20px;
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* STATUS */
+.status {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.nao {
+  background: #ccc;
+}
+.chamado {
+  background: #ffe082;
+}
+.interessado {
+  background: #ffb74d;
+}
+.fechado {
+  background: #81c784;
+}
+
+/* BOTÕES */
+.card button {
+  margin-top: 10px;
+  margin-right: 5px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.whatsapp {
+  background: #25d366;
+  color: white;
+}
+
+.excluir {
+  background: red;
+  color: white;
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  width: 300px;
+  margin: 100px auto;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CRM Premium</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <h2>📊 CRM</h2>
+        <button onclick="abrirModal()">+ Novo Lead</button>
+      </aside>
+
+      <!-- MAIN -->
+      <main>
+        <header class="topo">
+          <div class="card-topo">Total: <span id="total"></span></div>
+          <div class="card-topo">
+            Interessados: <span id="interessados"></span>
+          </div>
+          <div class="card-topo">Fechados: <span id="fechados"></span></div>
+        </header>
+
+        <section id="lista"></section>
+      </main>
+    </div>
+
+    <!-- MODAL -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <h3>Novo Lead</h3>
+        <input id="nome" placeholder="Nome do estabelecimento" />
+        <input id="tipo" placeholder="Tipo (pizza, taxi...)" />
+        <input id="telefone" placeholder="WhatsApp" />
+        <button onclick="addLead()">Salvar</button>
+        <button onclick="fecharModal()">Cancelar</button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

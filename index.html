@@ -1,76 +1,185 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RogZ CRM</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClienteFácil CRM</title>
+
+<style>
+body { margin:0; font-family:Arial; background:#f4f6f9; }
+header { display:flex; gap:10px; padding:10px; background:#111; color:#fff; }
+header input { flex:1; padding:8px; }
+
+.board { display:flex; gap:10px; padding:10px; overflow-x:auto; }
+.coluna { min-width:260px; background:#eee; padding:10px; border-radius:10px; }
+.card { background:#fff; padding:10px; border-radius:8px; margin-bottom:10px; cursor:grab; }
+
+.modal {
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,0.5);
+}
+.modal-box {
+  background:#fff; padding:20px; width:90%; max-width:320px;
+  margin:80px auto; border-radius:12px; display:flex; flex-direction:column; gap:10px;
+}
+
+.input-group { position:relative; }
+.input-group input {
+  width:100%; padding:12px; border-radius:8px; border:1px solid #ccc;
+}
+.input-group label {
+  position:absolute; left:10px; top:12px; color:#777; transition:.2s;
+  background:#fff; padding:0 4px;
+}
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+  top:-8px; font-size:11px; color:orange;
+}
+
+.btn-save { background:orange; color:#fff; border:none; padding:12px; border-radius:8px; }
+.btn-cancel { background:none; border:none; }
+
+.dark { background:#1e1e1e; color:#fff; }
+.dark .coluna { background:#2a2a2a; }
+.dark .card { background:#333; }
+</style>
 </head>
+
 <body>
 
 <header>
-  <h2>📊 RogZ CRM</h2>
+  <h2>ClienteFácil</h2>
   <input id="busca" placeholder="Buscar..." oninput="render()">
   <button onclick="toggleDark()">🌙</button>
   <button onclick="abrirModal()">+ Lead</button>
 </header>
 
 <div class="board">
-
-  <div class="coluna" data-status="Não contatado">
-    <h3>Não contatado</h3>
-    <div class="dropzone" id="nao"></div>
-  </div>
-
-  <div class="coluna" data-status="Chamado">
-    <h3>Chamado</h3>
-    <div class="dropzone" id="chamado"></div>
-  </div>
-
-  <div class="coluna" data-status="Interessado">
-    <h3>Interessado</h3>
-    <div class="dropzone" id="interessado"></div>
-  </div>
-
-  <div class="coluna" data-status="Fechado">
-    <h3>Fechado</h3>
-    <div class="dropzone" id="fechado"></div>
-  </div>
-
+  <div class="coluna" data-status="Não contatado"><h3>Não contatado</h3><div id="nao"></div></div>
+  <div class="coluna" data-status="Chamado"><h3>Chamado</h3><div id="chamado"></div></div>
+  <div class="coluna" data-status="Interessado"><h3>Interessado</h3><div id="interessado"></div></div>
+  <div class="coluna" data-status="Fechado"><h3>Fechado</h3><div id="fechado"></div></div>
 </div>
 
-<!-- MODAL -->
 <div id="modal" class="modal">
   <div class="modal-box">
-
-    <h2>✨ Novo Lead</h2>
+    <h3>Novo Lead</h3>
 
     <div class="input-group">
-      <input id="nome" required>
-      <label>Nome do estabelecimento</label>
+      <input id="nome" placeholder=" ">
+      <label>Nome</label>
     </div>
 
     <div class="input-group">
-      <input id="tipo" required>
-      <label>Tipo (pizza, táxi...)</label>
+      <input id="tipo" placeholder=" ">
+      <label>Tipo</label>
     </div>
 
     <div class="input-group">
-      <input id="telefone" required>
+      <input id="telefone" placeholder=" ">
       <label>WhatsApp</label>
     </div>
 
-    <div class="input-group">
-      <input id="followup" type="datetime-local">
-      <label>Follow-up</label>
-    </div>
-
-    <button class="btn-save" onclick="addLead()">Salvar Lead</button>
+    <button class="btn-save" onclick="addLead()">Salvar</button>
     <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
-
   </div>
 </div>
 
-<script src="script.js"></script>
+<script>
+let leads = JSON.parse(localStorage.getItem("leads")) || [];
+let dragId = null;
+
+function salvar(){
+  localStorage.setItem("leads", JSON.stringify(leads));
+}
+
+function abrirModal(){
+  modal.style.display = "block";
+}
+
+function fecharModal(){
+  modal.style.display = "none";
+}
+
+function addLead(){
+  const nome = document.getElementById("nome").value.trim();
+  const tipo = document.getElementById("tipo").value.trim();
+  const telefone = document.getElementById("telefone").value.trim();
+
+  if(!nome || !telefone){
+    alert("Preencha nome e WhatsApp");
+    return;
+  }
+
+  leads.push({
+    id: Date.now(),
+    nome, tipo, telefone,
+    status:"Não contatado"
+  });
+
+  salvar();
+  fecharModal();
+  render();
+
+  nome.value = "";
+  tipo.value = "";
+  telefone.value = "";
+}
+
+function render(){
+  ["nao","chamado","interessado","fechado"].forEach(id=>{
+    document.getElementById(id).innerHTML="";
+  });
+
+  const busca = document.getElementById("busca").value.toLowerCase();
+
+  leads
+    .filter(l=>l.nome.toLowerCase().includes(busca))
+    .forEach(l=>{
+      const el = document.createElement("div");
+      el.className="card";
+      el.draggable=true;
+
+      el.innerHTML = `
+        <strong>${l.nome}</strong><br>
+        ${l.tipo}<br>
+        ${l.telefone}<br>
+        <button onclick="abrirWhats('${l.telefone}')">WhatsApp</button>
+      `;
+
+      el.ondragstart=()=>dragId=l.id;
+
+      document.getElementById(getColuna(l.status)).appendChild(el);
+    });
+}
+
+function getColuna(s){
+  if(s==="Não contatado") return "nao";
+  if(s==="Chamado") return "chamado";
+  if(s==="Interessado") return "interessado";
+  if(s==="Fechado") return "fechado";
+}
+
+document.querySelectorAll(".coluna").forEach(col=>{
+  col.ondragover=e=>e.preventDefault();
+  col.ondrop=()=>{
+    const status=col.dataset.status;
+    leads = leads.map(l=>l.id===dragId?{...l,status}:l);
+    salvar();
+    render();
+  };
+});
+
+function abrirWhats(num){
+  window.location.href=`https://wa.me/${num}`;
+}
+
+function toggleDark(){
+  document.body.classList.toggle("dark");
+}
+
+render();
+</script>
+
 </body>
 </html>

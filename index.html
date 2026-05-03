@@ -3,54 +3,68 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ClienteFácil CRM</title>
+<title>CRM Simples</title>
 
 <style>
-body { margin:0; font-family:Arial; background:#f4f6f9; }
-header { display:flex; gap:10px; padding:10px; background:#111; color:#fff; }
+body { font-family: Arial; margin:0; background:#f4f6f9; }
+
+header {
+  background:#111;
+  color:#fff;
+  padding:10px;
+  display:flex;
+  gap:10px;
+}
+
 header input { flex:1; padding:8px; }
 
-.board { display:flex; gap:10px; padding:10px; overflow-x:auto; }
-.coluna { min-width:260px; background:#eee; padding:10px; border-radius:10px; }
-.card { background:#fff; padding:10px; border-radius:8px; margin-bottom:10px; cursor:grab; }
+.board {
+  display:flex;
+  gap:10px;
+  padding:10px;
+  overflow-x:auto;
+}
+
+.coluna {
+  min-width:250px;
+  background:#eee;
+  padding:10px;
+  border-radius:10px;
+}
+
+.card {
+  background:#fff;
+  padding:10px;
+  margin-bottom:10px;
+  border-radius:8px;
+}
 
 .modal {
-  display:none; position:fixed; inset:0;
+  display:none;
+  position:fixed;
+  inset:0;
   background:rgba(0,0,0,0.5);
 }
+
 .modal-box {
-  background:#fff; padding:20px; width:90%; max-width:320px;
-  margin:80px auto; border-radius:12px; display:flex; flex-direction:column; gap:10px;
+  background:#fff;
+  padding:20px;
+  width:300px;
+  margin:100px auto;
+  border-radius:10px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
 
-.input-group { position:relative; }
-.input-group input {
-  width:100%; padding:12px; border-radius:8px; border:1px solid #ccc;
-}
-.input-group label {
-  position:absolute; left:10px; top:12px; color:#777; transition:.2s;
-  background:#fff; padding:0 4px;
-}
-.input-group input:focus + label,
-.input-group input:not(:placeholder-shown) + label {
-  top:-8px; font-size:11px; color:orange;
-}
-
-.btn-save { background:orange; color:#fff; border:none; padding:12px; border-radius:8px; }
-.btn-cancel { background:none; border:none; }
-
-.dark { background:#1e1e1e; color:#fff; }
-.dark .coluna { background:#2a2a2a; }
-.dark .card { background:#333; }
+button { padding:10px; cursor:pointer; }
 </style>
 </head>
 
 <body>
 
 <header>
-  <h2>ClienteFácil</h2>
   <input id="busca" placeholder="Buscar..." oninput="render()">
-  <button onclick="toggleDark()">🌙</button>
   <button onclick="abrirModal()">+ Lead</button>
 </header>
 
@@ -63,25 +77,10 @@ header input { flex:1; padding:8px; }
 
 <div id="modal" class="modal">
   <div class="modal-box">
-    <h3>Novo Lead</h3>
-
-    <div class="input-group">
-      <input id="nome" placeholder=" ">
-      <label>Nome</label>
-    </div>
-
-    <div class="input-group">
-      <input id="tipo" placeholder=" ">
-      <label>Tipo</label>
-    </div>
-
-    <div class="input-group">
-      <input id="telefone" placeholder=" ">
-      <label>WhatsApp</label>
-    </div>
-
-    <button class="btn-save" onclick="addLead()">Salvar</button>
-    <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
+    <input id="nome" placeholder="Nome">
+    <input id="telefone" placeholder="WhatsApp">
+    <button onclick="addLead()">Salvar</button>
+    <button onclick="fecharModal()">Cancelar</button>
   </div>
 </div>
 
@@ -94,36 +93,32 @@ function salvar(){
 }
 
 function abrirModal(){
-  modal.style.display = "block";
+  document.getElementById("modal").style.display="block";
 }
 
 function fecharModal(){
-  modal.style.display = "none";
+  document.getElementById("modal").style.display="none";
 }
 
 function addLead(){
-  const nome = document.getElementById("nome").value.trim();
-  const tipo = document.getElementById("tipo").value.trim();
-  const telefone = document.getElementById("telefone").value.trim();
+  const nome = document.getElementById("nome").value;
+  const telefone = document.getElementById("telefone").value;
 
   if(!nome || !telefone){
-    alert("Preencha nome e WhatsApp");
+    alert("Preencha os campos");
     return;
   }
 
   leads.push({
     id: Date.now(),
-    nome, tipo, telefone,
+    nome,
+    telefone,
     status:"Não contatado"
   });
 
   salvar();
   fecharModal();
   render();
-
-  nome.value = "";
-  tipo.value = "";
-  telefone.value = "";
 }
 
 function render(){
@@ -142,9 +137,8 @@ function render(){
 
       el.innerHTML = `
         <strong>${l.nome}</strong><br>
-        ${l.tipo}<br>
         ${l.telefone}<br>
-        <button onclick="abrirWhats('${l.telefone}')">WhatsApp</button>
+        <button onclick="abrirWhats('${l.telefone}')">Whats</button>
       `;
 
       el.ondragstart=()=>dragId=l.id;
@@ -172,10 +166,6 @@ document.querySelectorAll(".coluna").forEach(col=>{
 
 function abrirWhats(num){
   window.location.href=`https://wa.me/${num}`;
-}
-
-function toggleDark(){
-  document.body.classList.toggle("dark");
 }
 
 render();

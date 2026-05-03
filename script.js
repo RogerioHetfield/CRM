@@ -13,16 +13,23 @@ function fecharModal() {
 }
 
 function addLead() {
-  const nome = document.getElementById("nome").value;
-  const tipo = document.getElementById("tipo").value;
-  const telefone = document.getElementById("telefone").value;
+  const nome = document.getElementById("nome").value.trim();
+  const tipo = document.getElementById("tipo").value.trim();
+  const telefone = document.getElementById("telefone").value.trim();
+  const followup = document.getElementById("followup").value;
+
+  if (!nome || !telefone) {
+    alert("Preencha nome e WhatsApp");
+    return;
+  }
 
   leads.push({
     id: Date.now(),
     nome,
     tipo,
     telefone,
-    status: "Não contatado",
+    followup,
+    status: "Não contatado"
   });
 
   salvar();

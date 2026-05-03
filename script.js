@@ -42,8 +42,8 @@ function deletar(id) {
   render();
 }
 
-function abrirWhats(telefone) {
-  window.open(`https://wa.me/${telefone}`);
+function abrirWhats(num) {
+  window.location.href = `https://wa.me/${num}`;
 }
 
 function render() {

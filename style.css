@@ -122,3 +122,59 @@ main {
   flex-direction: column;
   gap: 10px;
 }
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  header {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  header h2 {
+    width: 100%;
+    font-size: 18px;
+  }
+
+  header input {
+    width: 100%;
+  }
+
+  header button {
+    flex: 1;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  button {
+  touch-action: manipulation;
+}
+
+  .board {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+
+  .coluna {
+    min-width: 260px;
+    flex: 0 0 auto;
+  }
+
+  .card {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .card button {
+    width: 100%;
+    margin-top: 5px;
+    padding: 10px;
+  }
+
+  .modal-box {
+    width: 90%;
+    margin: 50px auto;
+  }
+
+}

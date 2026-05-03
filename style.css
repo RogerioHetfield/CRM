@@ -1,110 +1,54 @@
 body {
   margin: 0;
-  font-family: "Segoe UI", sans-serif;
+  font-family: Arial;
   background: #f4f6f9;
 }
 
-.app {
-  display: flex;
-}
-
-/* SIDEBAR */
-.sidebar {
-  width: 220px;
-  background: #111;
-  color: white;
-  height: 100vh;
-  padding: 20px;
-}
-
-.sidebar button {
-  margin-top: 20px;
-  width: 100%;
-  padding: 10px;
-  background: orange;
-  border: none;
-  cursor: pointer;
-  border-radius: 8px;
-}
-
-/* MAIN */
-main {
-  flex: 1;
-  padding: 20px;
-}
-
-/* TOPO */
-.topo {
+header {
   display: flex;
   gap: 10px;
+  padding: 10px;
+  background: #111;
+  color: white;
 }
 
-.card-topo {
-  background: white;
-  padding: 15px;
-  border-radius: 10px;
+header input {
   flex: 1;
-  text-align: center;
-  font-weight: bold;
+  padding: 8px;
 }
 
-/* LISTA */
-#lista {
-  margin-top: 20px;
+.board {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
 }
 
-/* CARD */
+.coluna {
+  flex: 1;
+  background: #eee;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.dropzone {
+  min-height: 300px;
+}
+
 .card {
   background: white;
-  padding: 15px;
-  border-radius: 12px;
+  padding: 10px;
+  border-radius: 8px;
   margin-bottom: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  cursor: grab;
 }
 
-/* STATUS */
-.status {
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  display: inline-block;
-  margin-top: 5px;
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
 }
 
-.nao {
-  background: #ccc;
-}
-.chamado {
-  background: #ffe082;
-}
-.interessado {
-  background: #ffb74d;
-}
-.fechado {
-  background: #81c784;
-}
-
-/* BOTÕES */
-.card button {
-  margin-top: 10px;
-  margin-right: 5px;
-  padding: 6px 10px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.whatsapp {
-  background: #25d366;
-  color: white;
-}
-
-.excluir {
-  background: red;
-  color: white;
-}
-
-/* MODAL MELHORADO */
 .modal-box {
   background: white;
   padding: 25px;
@@ -114,26 +58,18 @@ main {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  animation: fadeIn 0.2s ease;
 }
 
-.modal-box h2 {
-  margin: 0;
-  text-align: center;
-}
-
-/* INPUT MODERNO */
+/* INPUT BONITO */
 .input-group {
   position: relative;
 }
 
 .input-group input {
   width: 100%;
-  padding: 12px 10px;
-  border: 1px solid #ccc;
+  padding: 12px;
   border-radius: 8px;
-  outline: none;
-  font-size: 14px;
+  border: 1px solid #ccc;
 }
 
 .input-group label {
@@ -141,33 +77,25 @@ main {
   left: 10px;
   top: 12px;
   color: #777;
-  font-size: 13px;
   transition: 0.2s;
   background: white;
   padding: 0 4px;
 }
 
-/* ANIMAÇÃO LABEL */
 .input-group input:focus + label,
-.input-group input:valid + label {
-  top: -7px;
+.input-group input:not(:placeholder-shown) + label {
+  top: -8px;
   font-size: 11px;
-  color: #ff7a18;
-}
-
-/* FOCO */
-.input-group input:focus {
-  border-color: #ff7a18;
+  color: orange;
 }
 
 /* BOTÕES */
 .btn-save {
-  background: linear-gradient(135deg, #ff7a18, #ffb347);
+  background: orange;
   color: white;
   border: none;
   padding: 12px;
   border-radius: 8px;
-  font-weight: bold;
   cursor: pointer;
 }
 
@@ -178,64 +106,27 @@ main {
   cursor: pointer;
 }
 
-/* ANIMAÇÃO */
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+/* DARK */
+.dark {
+  background: #1e1e1e;
+  color: white;
+}
+
+.dark .coluna {
+  background: #2a2a2a;
+}
+
+.dark .card {
+  background: #333;
 }
 
 /* MOBILE */
 @media (max-width: 768px) {
-
-  header {
-    flex-wrap: wrap;
-    gap: 5px;
-  }
-
-  header h2 {
-    width: 100%;
-    font-size: 18px;
-  }
-
-  header input {
-    width: 100%;
-  }
-
-  header button {
-    flex: 1;
-    padding: 10px;
-    font-size: 14px;
-  }
-
-  button {
-  touch-action: manipulation;
-}
-
   .board {
-    flex-direction: row;
     overflow-x: auto;
-    padding-bottom: 10px;
   }
 
   .coluna {
     min-width: 260px;
-    flex: 0 0 auto;
   }
-
-  .card {
-    padding: 12px;
-    font-size: 14px;
-  }
-
-  .card button {
-    width: 100%;
-    margin-top: 5px;
-    padding: 10px;
-  }
-
-  .modal-box {
-    width: 90%;
-    margin: 50px auto;
-  }
-
 }

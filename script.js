@@ -1,4 +1,5 @@
 let leads = JSON.parse(localStorage.getItem("leads")) || [];
+let dragId = null;
 
 function salvar() {
   localStorage.setItem("leads", JSON.stringify(leads));
@@ -35,70 +36,63 @@ function addLead() {
   salvar();
   fecharModal();
   render();
+
+  document.getElementById("nome").value = "";
+  document.getElementById("tipo").value = "";
+  document.getElementById("telefone").value = "";
+  document.getElementById("followup").value = "";
 }
 
-function mudarStatus(id, status) {
-  leads = leads.map((l) => (l.id === id ? { ...l, status } : l));
-  salvar();
-  render();
+function render() {
+  document.querySelectorAll(".dropzone").forEach(d => d.innerHTML = "");
+
+  const busca = document.getElementById("busca").value.toLowerCase();
+
+  leads
+    .filter(l => l.nome.toLowerCase().includes(busca))
+    .forEach(l => {
+      const el = document.createElement("div");
+      el.className = "card";
+      el.draggable = true;
+
+      el.innerHTML = `
+        <strong>${l.nome}</strong><br>
+        ${l.tipo}<br>
+        ${l.telefone}<br>
+        <small>⏰ ${l.followup || "-"}</small><br>
+        <button onclick="abrirWhats('${l.telefone}')">WhatsApp</button>
+      `;
+
+      el.ondragstart = () => dragId = l.id;
+
+      document.getElementById(getColuna(l.status)).appendChild(el);
+    });
 }
 
-function deletar(id) {
-  leads = leads.filter((l) => l.id !== id);
-  salvar();
-  render();
+function getColuna(status) {
+  if (status === "Não contatado") return "nao";
+  if (status === "Chamado") return "chamado";
+  if (status === "Interessado") return "interessado";
+  if (status === "Fechado") return "fechado";
 }
+
+document.querySelectorAll(".dropzone").forEach(zone => {
+  zone.ondragover = e => e.preventDefault();
+
+  zone.ondrop = () => {
+    const status = zone.parentElement.dataset.status;
+    leads = leads.map(l => l.id === dragId ? {...l, status} : l);
+    salvar();
+    render();
+  };
+});
 
 function abrirWhats(num) {
   window.location.href = `https://wa.me/${num}`;
 }
 
-function render() {
-  const lista = document.getElementById("lista");
-
-  let interessados = 0;
-  let fechados = 0;
-
-  lista.innerHTML = "";
-
-  leads.forEach((l) => {
-    if (l.status === "Interessado") interessados++;
-    if (l.status === "Fechado") fechados++;
-
-    let classe = "";
-    if (l.status === "Não contatado") classe = "nao";
-    if (l.status === "Chamado") classe = "chamado";
-    if (l.status === "Interessado") classe = "interessado";
-    if (l.status === "Fechado") classe = "fechado";
-
-    lista.innerHTML += `
-      <div class="card">
-        <strong>${l.nome}</strong><br>
-        ${l.tipo}<br>
-        ${l.telefone}<br>
-
-        <div class="status ${classe}">${l.status}</div>
-
-        <div>
-          <select onchange="mudarStatus(${l.id}, this.value)">
-            <option ${
-              l.status === "Não contatado" ? "selected" : ""
-            }>Não contatado</option>
-            <option ${l.status === "Chamado" ? "selected" : ""}>Chamado</option>
-            <option ${
-              l.status === "Interessado" ? "selected" : ""
-            }>Interessado</option>
-            <option ${l.status === "Fechado" ? "selected" : ""}>Fechado</option>
-          </select>
-          <button class="excluir" onclick="deletar(${l.id})">Excluir</button>
-        </div>
-      </div>
-    `;
-  });
-
-  document.getElementById("total").innerText = leads.length;
-  document.getElementById("interessados").innerText = interessados;
-  document.getElementById("fechados").innerText = fechados;
+function toggleDark() {
+  document.body.classList.toggle("dark");
 }
 
 render();

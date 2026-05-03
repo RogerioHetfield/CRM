@@ -1,35 +1,46 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <title>CRM Premium</title>
-    <link rel="stylesheet" href="style.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  </head>
-  <body>
-    <div class="app">
-      <!-- SIDEBAR -->
-      <aside class="sidebar">
-        <h2>📊 CRM</h2>
-        <button onclick="abrirModal()">+ Novo Lead</button>
-      </aside>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RogZ CRM</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-      <!-- MAIN -->
-      <main>
-        <header class="topo">
-          <div class="card-topo">Total: <span id="total"></span></div>
-          <div class="card-topo">
-            Interessados: <span id="interessados"></span>
-          </div>
-          <div class="card-topo">Fechados: <span id="fechados"></span></div>
-        </header>
+<header>
+  <h2>📊 RogZ CRM</h2>
+  <input id="busca" placeholder="Buscar..." oninput="render()">
+  <button onclick="toggleDark()">🌙</button>
+  <button onclick="abrirModal()">+ Lead</button>
+</header>
 
-        <section id="lista"></section>
-      </main>
-    </div>
+<div class="board">
 
-    <!-- MODAL -->
-    <div id="modal" class="modal">
+  <div class="coluna" data-status="Não contatado">
+    <h3>Não contatado</h3>
+    <div class="dropzone" id="nao"></div>
+  </div>
+
+  <div class="coluna" data-status="Chamado">
+    <h3>Chamado</h3>
+    <div class="dropzone" id="chamado"></div>
+  </div>
+
+  <div class="coluna" data-status="Interessado">
+    <h3>Interessado</h3>
+    <div class="dropzone" id="interessado"></div>
+  </div>
+
+  <div class="coluna" data-status="Fechado">
+    <h3>Fechado</h3>
+    <div class="dropzone" id="fechado"></div>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
   <div class="modal-box">
 
     <h2>✨ Novo Lead</h2>
@@ -60,6 +71,6 @@
   </div>
 </div>
 
-    <script src="script.js"></script>
-  </body>
+<script src="script.js"></script>
+</body>
 </html>

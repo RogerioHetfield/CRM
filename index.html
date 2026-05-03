@@ -30,15 +30,35 @@
 
     <!-- MODAL -->
     <div id="modal" class="modal">
-      <div class="modal-content">
-        <h3>Novo Lead</h3>
-        <input id="nome" placeholder="Nome do estabelecimento" />
-        <input id="tipo" placeholder="Tipo (pizza, taxi...)" />
-        <input id="telefone" placeholder="WhatsApp" />
-        <button onclick="addLead()">Salvar</button>
-        <button onclick="fecharModal()">Cancelar</button>
-      </div>
+  <div class="modal-box">
+
+    <h2>✨ Novo Lead</h2>
+
+    <div class="input-group">
+      <input id="nome" required>
+      <label>Nome do estabelecimento</label>
     </div>
+
+    <div class="input-group">
+      <input id="tipo" required>
+      <label>Tipo (pizza, táxi...)</label>
+    </div>
+
+    <div class="input-group">
+      <input id="telefone" required>
+      <label>WhatsApp</label>
+    </div>
+
+    <div class="input-group">
+      <input id="followup" type="datetime-local">
+      <label>Follow-up</label>
+    </div>
+
+    <button class="btn-save" onclick="addLead()">Salvar Lead</button>
+    <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
+
+  </div>
+</div>
 
     <script src="script.js"></script>
   </body>

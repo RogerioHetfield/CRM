@@ -104,23 +104,84 @@ main {
   color: white;
 }
 
-/* MODAL */
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
+/* MODAL MELHORADO */
+.modal-box {
   background: white;
-  padding: 20px;
-  width: 300px;
-  margin: 100px auto;
-  border-radius: 10px;
+  padding: 25px;
+  width: 320px;
+  margin: 80px auto;
+  border-radius: 14px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-box h2 {
+  margin: 0;
+  text-align: center;
+}
+
+/* INPUT MODERNO */
+.input-group {
+  position: relative;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+}
+
+.input-group label {
+  position: absolute;
+  left: 10px;
+  top: 12px;
+  color: #777;
+  font-size: 13px;
+  transition: 0.2s;
+  background: white;
+  padding: 0 4px;
+}
+
+/* ANIMAÇÃO LABEL */
+.input-group input:focus + label,
+.input-group input:valid + label {
+  top: -7px;
+  font-size: 11px;
+  color: #ff7a18;
+}
+
+/* FOCO */
+.input-group input:focus {
+  border-color: #ff7a18;
+}
+
+/* BOTÕES */
+.btn-save {
+  background: linear-gradient(135deg, #ff7a18, #ffb347);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-cancel {
+  background: transparent;
+  border: none;
+  color: #666;
+  cursor: pointer;
+}
+
+/* ANIMAÇÃO */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 /* MOBILE */

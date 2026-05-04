@@ -1,175 +1,159 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CRM Simples</title>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elite Prospec | CRM</title>
+    <!-- Fontes e Ícones -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="logo-box"><i class="ri-rocket-fill"></i></div>
+          <span>Elite CRM</span>
+        </div>
+        <nav class="side-nav">
+          <button class="nav-link active" onclick="location.reload()">
+            <i class="ri-dashboard-3-line"></i> Dashboard
+          </button>
+          <button class="nav-link" id="btn-report" onclick="toggleReport()">
+            <i class="ri-bar-chart-box-line"></i> Relatórios
+          </button>
+        </nav>
+      </aside>
 
-<style>
-body { font-family: Arial; margin:0; background:#f4f6f9; }
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Relatório Integrado (Escondido por padrão) -->
+        <section id="report-panel" class="report-panel">
+          <div class="report-content">
+            <div class="report-header">
+              <h2>Análise de Conversão</h2>
+              <p>Desempenho atual baseado nos seus leads salvos.</p>
+            </div>
+            <div class="report-stats">
+              <div class="stat-item">
+                <span id="rate-label">Taxa de Sucesso</span>
+                <div class="progress-container">
+                  <div id="progress-bar" class="progress-bar"></div>
+                </div>
+                <strong id="rate-value">0%</strong>
+              </div>
+            </div>
+          </div>
+        </section>
 
-header {
-  background:#111;
-  color:#fff;
-  padding:10px;
-  display:flex;
-  gap:10px;
-}
+        <header class="top-header">
+          <div class="user-info">
+            <h1>Seu Painel</h1>
+            <p>Gerencie seus estabelecimentos e contatos.</p>
+          </div>
+          <button class="btn-add" onclick="openModal()">
+            <i class="ri-add-line"></i> Novo Lead
+          </button>
+        </header>
 
-header input { flex:1; padding:8px; }
+        <!-- Métricas Rápidas -->
+        <div class="metrics-grid">
+          <div class="card-metric">
+            <span>Total</span>
+            <h3 id="count-total">0</h3>
+          </div>
+          <div class="card-metric warning">
+            <span>Abertos</span>
+            <h3 id="count-open">0</h3>
+          </div>
+          <div class="card-metric success">
+            <span>Fechados</span>
+            <h3 id="count-closed">0</h3>
+          </div>
+        </div>
 
-.board {
-  display:flex;
-  gap:10px;
-  padding:10px;
-  overflow-x:auto;
-}
+        <!-- Listagem de Leads -->
+        <div class="leads-grid" id="leads-container">
+          <!-- Cards renderizados aqui -->
+        </div>
+      </main>
+    </div>
 
-.coluna {
-  min-width:250px;
-  background:#eee;
-  padding:10px;
-  border-radius:10px;
-}
+    <!-- Modal "Balão" de Cadastro -->
+    <div id="modal-overlay" class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-head">
+          <h2 id="modal-title">Novo Estabelecimento</h2>
+          <button class="btn-close" onclick="closeModal()">
+            <i class="ri-close-line"></i>
+          </button>
+        </div>
 
-.card {
-  background:#fff;
-  padding:10px;
-  margin-bottom:10px;
-  border-radius:8px;
-}
+        <div class="modal-body">
+          <input type="hidden" id="edit-id" />
 
-.modal {
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.5);
-}
+          <div class="field-group">
+            <label>Nome do Local</label>
+            <div class="input-wrapper">
+              <i class="ri-store-2-line"></i>
+              <input
+                type="text"
+                id="lead-name"
+                placeholder="Ex: Restaurante do Chef"
+              />
+            </div>
+          </div>
 
-.modal-box {
-  background:#fff;
-  padding:20px;
-  width:300px;
-  margin:100px auto;
-  border-radius:10px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
+          <div class="field-group">
+            <label>WhatsApp</label>
+            <div class="input-wrapper">
+              <i class="ri-whatsapp-line"></i>
+              <input type="text" id="lead-phone" placeholder="DDD + Número" />
+            </div>
+          </div>
 
-button { padding:10px; cursor:pointer; }
-</style>
-</head>
+          <div class="field-group">
+            <label>Status</label>
+            <div class="input-wrapper">
+              <i class="ri-flag-line"></i>
+              <select id="lead-status">
+                <option value="novo">Novo Lead</option>
+                <option value="contatado">Contatado</option>
+                <option value="interessado">Interessado</option>
+                <option value="fechado">Fechado ✅</option>
+              </select>
+            </div>
+          </div>
 
-<body>
+          <div class="field-group">
+            <label>Notas Extras</label>
+            <div class="input-wrapper">
+              <i class="ri-chat-1-line"></i>
+              <textarea
+                id="lead-notes"
+                placeholder="Horários, pessoa de contato..."
+              ></textarea>
+            </div>
+          </div>
+        </div>
 
-<header>
-  <input id="busca" placeholder="Buscar..." oninput="render()">
-  <button onclick="abrirModal()">+ Lead</button>
-</header>
+        <div class="modal-footer">
+          <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
+          <button class="btn-primary" onclick="handleSave()">
+            Salvar Lead
+          </button>
+        </div>
+      </div>
+    </div>
 
-<div class="board">
-  <div class="coluna" data-status="Não contatado"><h3>Não contatado</h3><div id="nao"></div></div>
-  <div class="coluna" data-status="Chamado"><h3>Chamado</h3><div id="chamado"></div></div>
-  <div class="coluna" data-status="Interessado"><h3>Interessado</h3><div id="interessado"></div></div>
-  <div class="coluna" data-status="Fechado"><h3>Fechado</h3><div id="fechado"></div></div>
-</div>
-
-<div id="modal" class="modal">
-  <div class="modal-box">
-    <input id="nome" placeholder="Nome">
-    <input id="telefone" placeholder="WhatsApp">
-    <button onclick="addLead()">Salvar</button>
-    <button onclick="fecharModal()">Cancelar</button>
-  </div>
-</div>
-
-<script>
-let leads = JSON.parse(localStorage.getItem("leads")) || [];
-let dragId = null;
-
-function salvar(){
-  localStorage.setItem("leads", JSON.stringify(leads));
-}
-
-function abrirModal(){
-  document.getElementById("modal").style.display="block";
-}
-
-function fecharModal(){
-  document.getElementById("modal").style.display="none";
-}
-
-function addLead(){
-  const nome = document.getElementById("nome").value;
-  const telefone = document.getElementById("telefone").value;
-
-  if(!nome || !telefone){
-    alert("Preencha os campos");
-    return;
-  }
-
-  leads.push({
-    id: Date.now(),
-    nome,
-    telefone,
-    status:"Não contatado"
-  });
-
-  salvar();
-  fecharModal();
-  render();
-}
-
-function render(){
-  ["nao","chamado","interessado","fechado"].forEach(id=>{
-    document.getElementById(id).innerHTML="";
-  });
-
-  const busca = document.getElementById("busca").value.toLowerCase();
-
-  leads
-    .filter(l=>l.nome.toLowerCase().includes(busca))
-    .forEach(l=>{
-      const el = document.createElement("div");
-      el.className="card";
-      el.draggable=true;
-
-      el.innerHTML = `
-        <strong>${l.nome}</strong><br>
-        ${l.telefone}<br>
-        <button onclick="abrirWhats('${l.telefone}')">Whats</button>
-      `;
-
-      el.ondragstart=()=>dragId=l.id;
-
-      document.getElementById(getColuna(l.status)).appendChild(el);
-    });
-}
-
-function getColuna(s){
-  if(s==="Não contatado") return "nao";
-  if(s==="Chamado") return "chamado";
-  if(s==="Interessado") return "interessado";
-  if(s==="Fechado") return "fechado";
-}
-
-document.querySelectorAll(".coluna").forEach(col=>{
-  col.ondragover=e=>e.preventDefault();
-  col.ondrop=()=>{
-    const status=col.dataset.status;
-    leads = leads.map(l=>l.id===dragId?{...l,status}:l);
-    salvar();
-    render();
-  };
-});
-
-function abrirWhats(num){
-  window.location.href=`https://wa.me/${num}`;
-}
-
-render();
-</script>
-
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

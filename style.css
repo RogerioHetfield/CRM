@@ -332,3 +332,87 @@ body {
     transform: translateY(0);
   }
 }
+
+/* --- AJUSTES PARA MOBILE --- */
+@media (max-width: 768px) {
+    /* 1. Transforma Sidebar em Nav Inferior */
+    .sidebar {
+        width: 100%;
+        height: 70px;
+        bottom: 0;
+        top: auto;
+        padding: 0;
+        z-index: 1000;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        border-right: none;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .brand { display: none; } /* Esconde o logo no mobile para ganhar espaço */
+
+    .side-nav {
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-around;
+        gap: 0;
+    }
+
+    .nav-link {
+        flex-direction: column;
+        font-size: 0.7rem;
+        gap: 4px;
+        padding: 10px;
+        align-items: center;
+    }
+
+    .nav-link i { font-size: 1.2rem; }
+
+    /* 2. Ajusta o conteúdo principal */
+    .main-content {
+        margin-left: 0; /* Remove a margem da sidebar */
+        padding: 20px;
+        padding-bottom: 90px; /* Espaço para não cobrir o conteúdo com a nav inferior */
+    }
+
+    /* 3. Cabeçalho e Métricas */
+    .top-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .btn-add {
+        width: 100%; /* Botão de adicionar ocupa a largura toda no celular */
+        justify-content: center;
+    }
+
+    .metrics-grid {
+        grid-template-columns: 1fr; /* Métricas uma embaixo da outra */
+        gap: 10px;
+    }
+
+    /* 4. Grid de Cards */
+    .leads-grid {
+        grid-template-columns: 1fr; /* Cards ocupam a largura toda */
+    }
+
+    .lead-card {
+        padding: 20px;
+    }
+
+    /* 5. Ajuste do Modal (O "Balão") */
+    .modal-card {
+        width: 95%;
+        padding: 20px;
+        margin: 10px;
+        border-radius: 20px;
+    }
+
+    .report-grid {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+}

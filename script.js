@@ -21,6 +21,7 @@ function clearForm() {
 
 // Salvar ou Atualizar
 function handleSave() {
+    const system = document.getElementById('lead-system').value; // Nova linha
     const id = document.getElementById("edit-id").value;
     const name = document.getElementById("lead-name").value;
     const phone = document.getElementById("lead-phone").value;
@@ -30,10 +31,10 @@ function handleSave() {
     if (!name || !phone) return alert("Preencha Nome e Telefone!");
 
     if (id) {
-        const index = leads.findIndex((l) => l.id == id);
-        leads[index] = { ...leads[index], name, phone, status, notes };
+        const index = leads.findIndex(l => l.id == id);
+        leads[index] = { ...leads[index], name, phone, status, notes, system }; // Adicionado system
     } else {
-        leads.push({ id: Date.now(), name, phone, status, notes });
+        leads.push({ id: Date.now(), name, phone, status, notes, system }); // Adicionado system
     }
 
     saveAndRender();
@@ -102,10 +103,14 @@ function render() {
         const card = document.createElement("div");
         card.className = "lead-card";
         card.innerHTML = `
-            <span class="status-tag tag-${lead.status}">${lead.status}</span>
-            <h3>${lead.name}</h3>
-            <p style="font-size: 0.85rem; color: #64748b; margin-top: 5px;">${lead.notes || "Sem observações."
-            }</p>
+    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <span class="status-tag tag-${lead.status}">${lead.status}</span>
+        <div class="system-badge">
+            <i class="ri-computer-line"></i> ${lead.system || 'Nenhum'}
+        </div>
+    </div>
+    <h3>${lead.name}</h3>
+    <p>${lead.notes || 'Sem observações.'}</p>
             <a href="https://wa.me/55${cleanPhone}" target="_blank" class="lead-phone mobile-touch">
     <i class="ri-whatsapp-fill"></i> Chamar no WhatsApp
 </a>

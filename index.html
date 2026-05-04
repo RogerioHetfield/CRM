@@ -1,159 +1,163 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>RogZ | CRM</title>
     <!-- Fontes e Ícones -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="app-container">
-      <!-- Sidebar -->
-      <aside class="sidebar">
-        <div class="brand">
-          <div class="logo-box"><i class="ri-rocket-fill"></i></div>
-          <span>RogZ CRM</span>
-        </div>
-        <nav class="side-nav">
-          <button class="nav-link active" onclick="location.reload()">
-            <i class="ri-dashboard-3-line"></i> Dashboard
-          </button>
-          <button class="nav-link" id="btn-report" onclick="toggleReport()">
-            <i class="ri-bar-chart-box-line"></i> Relatórios
-          </button>
-        </nav>
-      </aside>
-
-      <!-- Main Content -->
-      <main class="main-content">
-        <!-- Relatório Integrado (Escondido por padrão) -->
-        <section id="report-panel" class="report-panel">
-          <div class="report-content">
-            <div class="report-header">
-              <h2>Análise de Conversão</h2>
-              <p>Desempenho atual baseado nos seus leads salvos.</p>
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo-box"><i class="ri-rocket-fill"></i></div>
+                <span>RogZ CRM</span>
             </div>
-            <div class="report-stats">
-              <div class="stat-item">
-                <span id="rate-label">Taxa de Sucesso</span>
-                <div class="progress-container">
-                  <div id="progress-bar" class="progress-bar"></div>
+            <nav class="side-nav">
+                <button class="nav-link active" onclick="location.reload()">
+                    <i class="ri-dashboard-3-line"></i> Dashboard
+                </button>
+                <button class="nav-link" id="btn-report" onclick="toggleReport()">
+                    <i class="ri-bar-chart-box-line"></i> Relatórios
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Relatório Integrado (Escondido por padrão) -->
+            <section id="report-panel" class="report-panel">
+                <div class="report-content">
+                    <div class="report-header">
+                        <h2>Análise de Conversão</h2>
+                        <p>Desempenho atual baseado nos seus leads salvos.</p>
+                    </div>
+                    <div class="report-stats">
+                        <div class="stat-item">
+                            <span id="rate-label">Taxa de Sucesso</span>
+                            <div class="progress-container">
+                                <div id="progress-bar" class="progress-bar"></div>
+                            </div>
+                            <strong id="rate-value">0%</strong>
+                        </div>
+                    </div>
                 </div>
-                <strong id="rate-value">0%</strong>
-              </div>
+            </section>
+
+            <header class="top-header">
+                <div class="user-info">
+                    <h1>RogZ CRM</h1>
+                    <p>Gerencie seus estabelecimentos e contatos.</p>
+                </div>
+                <button class="btn-add" onclick="openModal()">
+                    <i class="ri-add-line"></i> Novo Lead
+                </button>
+            </header>
+
+            <!-- Métricas Rápidas -->
+            <div class="metrics-grid">
+                <div class="card-metric">
+                    <span>Total</span>
+                    <h3 id="count-total">0</h3>
+                </div>
+                <div class="card-metric warning">
+                    <span>Abertos</span>
+                    <h3 id="count-open">0</h3>
+                </div>
+                <div class="card-metric success">
+                    <span>Fechados</span>
+                    <h3 id="count-closed">0</h3>
+                </div>
             </div>
-          </div>
-        </section>
 
-        <header class="top-header">
-          <div class="user-info">
-            <h1>RogZ CRM</h1>
-            <p>Gerencie seus estabelecimentos e contatos.</p>
-          </div>
-          <button class="btn-add" onclick="openModal()">
-            <i class="ri-add-line"></i> Novo Lead
-          </button>
-        </header>
-
-        <!-- Métricas Rápidas -->
-        <div class="metrics-grid">
-          <div class="card-metric">
-            <span>Total</span>
-            <h3 id="count-total">0</h3>
-          </div>
-          <div class="card-metric warning">
-            <span>Abertos</span>
-            <h3 id="count-open">0</h3>
-          </div>
-          <div class="card-metric success">
-            <span>Fechados</span>
-            <h3 id="count-closed">0</h3>
-          </div>
-        </div>
-
-        <!-- Listagem de Leads -->
-        <div class="leads-grid" id="leads-container">
-          <!-- Cards renderizados aqui -->
-        </div>
-      </main>
+            <!-- Listagem de Leads -->
+            <div class="leads-grid" id="leads-container">
+                <!-- Cards renderizados aqui -->
+            </div>
+        </main>
     </div>
 
     <!-- Modal "Balão" de Cadastro -->
     <div id="modal-overlay" class="modal-overlay">
-      <div class="modal-card">
-        <div class="modal-head">
-          <h2 id="modal-title">Novo Estabelecimento</h2>
-          <button class="btn-close" onclick="closeModal()">
-            <i class="ri-close-line"></i>
-          </button>
+        <div class="modal-card">
+            <div class="modal-head">
+                <h2 id="modal-title">Novo Estabelecimento</h2>
+                <button class="btn-close" onclick="closeModal()">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" id="edit-id" />
+                <div class="field-group">
+                    <label>Sistema Atual do Local</label>
+                    <div class="input-wrapper">
+                        <i class="ri-computer-line"></i>
+                        <select id="lead-system">
+                            <option value="Nenhum">Nenhum / Não informado</option>
+                            <option value="BigDim">BigDim</option>
+                            <option value="AnotaAi">AnotaAi</option>
+                            <option value="InfoLuck">InfoLuck</option>
+                            <option value="MenuDino">MenuDino</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label>Nome do Local</label>
+                    <div class="input-wrapper">
+                        <i class="ri-store-2-line"></i>
+                        <input type="text" id="lead-name" placeholder="Ex: Restaurante do Chef" />
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>WhatsApp</label>
+                    <div class="input-wrapper">
+                        <i class="ri-whatsapp-line"></i>
+                        <input type="text" id="lead-phone" placeholder="DDD + Número" />
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Status</label>
+                    <div class="input-wrapper">
+                        <i class="ri-flag-line"></i>
+                        <select id="lead-status">
+                            <option value="novo">Novo Lead</option>
+                            <option value="contatado">Contatado</option>
+                            <option value="interessado">Interessado</option>
+                            <option value="fechado">Fechado ✅</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label>Notas Extras</label>
+                    <div class="input-wrapper">
+                        <i class="ri-chat-1-line"></i>
+                        <textarea id="lead-notes" placeholder="Horários, pessoa de contato..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
+                <button class="btn-primary" onclick="handleSave()">
+                    Salvar Lead
+                </button>
+            </div>
         </div>
-
-        <div class="modal-body">
-          <input type="hidden" id="edit-id" />
-
-          <div class="field-group">
-            <label>Nome do Local</label>
-            <div class="input-wrapper">
-              <i class="ri-store-2-line"></i>
-              <input
-                type="text"
-                id="lead-name"
-                placeholder="Ex: Restaurante do Chef"
-              />
-            </div>
-          </div>
-
-          <div class="field-group">
-            <label>WhatsApp</label>
-            <div class="input-wrapper">
-              <i class="ri-whatsapp-line"></i>
-              <input type="text" id="lead-phone" placeholder="DDD + Número" />
-            </div>
-          </div>
-
-          <div class="field-group">
-            <label>Status</label>
-            <div class="input-wrapper">
-              <i class="ri-flag-line"></i>
-              <select id="lead-status">
-                <option value="novo">Novo Lead</option>
-                <option value="contatado">Contatado</option>
-                <option value="interessado">Interessado</option>
-                <option value="fechado">Fechado ✅</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="field-group">
-            <label>Notas Extras</label>
-            <div class="input-wrapper">
-              <i class="ri-chat-1-line"></i>
-              <textarea
-                id="lead-notes"
-                placeholder="Horários, pessoa de contato..."
-              ></textarea>
-            </div>
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
-          <button class="btn-primary" onclick="handleSave()">
-            Salvar Lead
-          </button>
-        </div>
-      </div>
     </div>
 
     <script src="script.js"></script>
-  </body>
+</body>
+
 </html>
